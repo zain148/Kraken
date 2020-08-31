@@ -1,0 +1,25 @@
+const Images = {
+  BackgroundOne: require("./Background.png"),
+  BackgroundTwo: require("./BackgroundTwo.png"),
+  Connect: require("./Connect.png"),
+  WelcomeMessage: require("./welcomeMessage.png"),
+  TryManually: require("./tryManually.png"),
+  Connecting: require("./Connecting.png"),
+  LayoutHeader: require("./LayoutHeader.png"),
+  LayoutFooter: require("./LayoutFooter.png"),
+  OkButton: require("./Ok.png"),
+  ScrollButton: require("./Scroll.png"),
+  CompactButton: require("./Compact.png"),
+  Mobile: require("./Mobile.png"),
+  Tablet: require("./Tablet.png"),
+  MobileOr: require("./MobileOr.png"),
+  TabletOr: require("./TabletOr.png"),
+  Group: require("./Group.png"),
+  Setting: require("./Setting.png"),
+  ScrollSetting: require("./ScrollSetting.png"),
+  Rt1: require("./rt1.png"),
+  Rt2: require("./rt2.png"),
+  tab: require("./tab.png"),
+};
+
+export default Images;
