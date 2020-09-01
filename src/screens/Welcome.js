@@ -1,24 +1,25 @@
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  StatusBar,
-  Image,
-  ImageBackground,
-  StyleSheet,
-} from "react-native";
+import { View, TouchableOpacity, Image, ImageBackground, StyleSheet } from "react-native";
 import Images from "../assets/images/images";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import NetInfo from "@react-native-community/netinfo";
+import { StatusBar } from "expo-status-bar";
 
 const Welcome = (props) => {
   const connect = () => {
-    //alert("First let's say Failed connection ");
-    // props.navigation.navigate("TryManually", { connection: "failed" });
+    // Subscribe
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      if (state.isConnected === true) {
+        props.navigation.navigate("Connecting");
+      } else {
+        props.navigation.navigate("TryManually", { connection: "failed" });
+      }
+    });
 
-    props.navigation.navigate("Connecting");
+    unsubscribe();
   };
 
   return (
@@ -27,7 +28,7 @@ const Welcome = (props) => {
       imageStyle={styles.imageStyle}
       source={Images.BackgroundOne}
     >
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Image source={Images.WelcomeMessage} style={styles.welcomeMessageStyle} />

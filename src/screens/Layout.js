@@ -12,19 +12,28 @@ const Layout = (props) => {
   const checkingPreSelectedOption = async () => {
     const compact = await AsyncStorage.getItem("compact");
     const scroll = await AsyncStorage.getItem("scroll");
-    setCompact(compact);
-    setScroll(scroll);
 
-    if (compact === "true") {
-      alert("compact selected");
-    } else if (scroll === "true") {
-      alert("scroll selected");
+    if (compact === "false" && scroll === "false") {
+      setCompact("true");
+      setScroll("false");
+      await AsyncStorage.setItem("compact", "true");
+      await AsyncStorage.setItem("scroll", "false");
     } else {
-      alert("Nothing selected");
+      setCompact(compact);
+      setScroll(scroll);
+
+      //will navigate to selected screen Automatically
+      setTimeout(() => {
+        if (compact === "true") {
+          props.navigation.navigate("ColorPicker");
+        } else {
+          props.navigation.navigate("ScrollColorPicker");
+        }
+      }, 800);
     }
   };
 
-  //call on initial DidMount()
+  //call on initial Render DidMount()
   useEffect(() => {
     checkingPreSelectedOption();
   }, []);

@@ -20,6 +20,7 @@ const Images = {
   Rt1: require("./rt1.png"),
   Rt2: require("./rt2.png"),
   tab: require("./tab.png"),
+  PlaceHolder: require("./PlaceHolder.png"),
 };
 
 export default Images;

@@ -1,59 +1,154 @@
 import React from "react";
-import { View, TouchableOpacity, Text, Image, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import Images from "../assets/images/images";
 import colors from "../config/Colors";
+import {
+  SliderHuePicker,
+  SliderSaturationPicker,
+  SliderValuePicker,
+} from "react-native-slider-color-picker";
+
+import tinycolor from "tinycolor2";
+const { width } = Dimensions.get("window");
 
 //ColorPicker
-const ScrollColorPicker = () => {
-  return (
-    <ImageBackground
-      style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
-      source={Images.BackgroundOne}
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerButtons}>
-            <TouchableOpacity onPress={() => alert("setting button")}>
-              <Image style={styles.headerSettingImage} source={Images.ScrollSetting} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => alert("RT1 BUTTON")}>
-              <Image source={Images.Rt1} style={styles.RtButtons} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => alert("RT2 button")}>
-              <Image source={Images.Rt2} style={styles.RtButtons} />
-            </TouchableOpacity>
+class ScrollColorPicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      oldColor: "#FF7700",
+    };
+  }
+
+  changeColor = (colorHsvOrRgb, resType) => {
+    if (resType === "end") {
+      this.setState({
+        oldColor: tinycolor(colorHsvOrRgb).toHexString(),
+      });
+      console.log(tinycolor(colorHsvOrRgb).toHexString());
+    }
+  };
+
+  render() {
+    const { oldColor } = this.state;
+
+    return (
+      <ImageBackground
+        style={styles.backgroundImage}
+        imageStyle={styles.imageStyle}
+        source={Images.BackgroundOne}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.headerButtons}>
+              <TouchableOpacity onPress={() => alert("setting button")}>
+                <Image style={styles.headerSettingImage} source={Images.ScrollSetting} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => alert("RT1 BUTTON")}>
+                <Image source={Images.Rt1} style={styles.RtButtons} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => alert("RT2 button")}>
+                <Image source={Images.Rt2} style={styles.RtButtons} />
+              </TouchableOpacity>
+            </View>
+
+            {/* Picker_View */}
           </View>
 
-          {/* Picker_View */}
-        </View>
+          <View style={styles.headerTab}>
+            <ImageBackground
+              source={Images.tab}
+              imageStyle={{ marginLeft: 17, marginTop: -20 }}
+              style={styles.TabImageStyle}
+            >
+              <View style={styles.containerImage}>
+                <View
+                  style={{ marginHorizontal: 24, marginTop: 20, height: 12, width: width - 48 }}
+                >
+                  <SliderHuePicker
+                    ref={(view) => {
+                      this.sliderHuePicker = view;
+                    }}
+                    oldColor={oldColor}
+                    trackStyle={[{ height: 12, width: width - 48 }]}
+                    thumbStyle={styles.thumb}
+                    onColorChange={this.changeColor}
+                  />
+                </View>
+                <View
+                  style={{ marginHorizontal: 24, marginTop: 20, height: 12, width: width - 48 }}
+                >
+                  <SliderSaturationPicker
+                    ref={(view) => {
+                      this.sliderSaturationPicker = view;
+                    }}
+                    oldColor={oldColor}
+                    trackStyle={[{ height: 12, width: width - 48 }]}
+                    thumbStyle={styles.thumb}
+                    onColorChange={this.changeColor}
+                    style={{
+                      height: 12,
+                      borderRadius: 6,
+                      backgroundColor: tinycolor({
+                        h: tinycolor(oldColor).toHsv().h,
+                        s: 1,
+                        v: 1,
+                      }).toHexString(),
+                    }}
+                  />
+                </View>
+                <View
+                  style={{ marginHorizontal: 24, marginTop: 20, height: 12, width: width - 48 }}
+                >
+                  <SliderValuePicker
+                    ref={(view) => {
+                      this.sliderValuePicker = view;
+                    }}
+                    oldColor={oldColor}
+                    minimumValue={0.02}
+                    step={0.05}
+                    trackStyle={[{ height: 12, width: width - 48 }]}
+                    trackImage={require("react-native-slider-color-picker/brightness_mask.png")}
+                    thumbStyle={styles.thumb}
+                    onColorChange={this.changeColor}
+                    style={{ height: 12, borderRadius: 6, backgroundColor: "black" }}
+                  />
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
 
-        <View style={styles.headerTab}>
-          <Image source={Images.tab} style={styles.TabImageStyle} />
+          {/**Bottom Buttons */}
+          <View style={styles.bottom}>
+            <TouchableOpacity
+              onPress={() => alert("Group Button")}
+              style={[styles.insideBottom, { marginLeft: 10 }]}
+            >
+              <Image source={Images.Group} style={styles.bottomImageStyle} />
+              <Text style={styles.bottomTextStyle}>GROUP</Text>
+            </TouchableOpacity>
+            {/* Setting */}
+            <TouchableOpacity
+              onPress={() => alert("Settings Button")}
+              style={[styles.insideBottom, { marginRight: 10 }]}
+            >
+              <Text style={styles.bottomTextStyle}>SETTINGS</Text>
+              <Image source={Images.Setting} style={styles.bottomImageStyle} />
+            </TouchableOpacity>
+          </View>
         </View>
-
-        {/**Bottom Buttons */}
-        <View style={styles.bottom}>
-          <TouchableOpacity
-            onPress={() => alert("Group Button")}
-            style={[styles.insideBottom, { marginLeft: 10 }]}
-          >
-            <Image source={Images.Group} style={styles.bottomImageStyle} />
-            <Text style={styles.bottomTextStyle}>GROUP</Text>
-          </TouchableOpacity>
-          {/* Setting */}
-          <TouchableOpacity
-            onPress={() => alert("Settings Button")}
-            style={[styles.insideBottom, { marginRight: 10 }]}
-          >
-            <Text style={styles.bottomTextStyle}>SETTINGS</Text>
-            <Image source={Images.Setting} style={styles.bottomImageStyle} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ImageBackground>
-  );
-};
+      </ImageBackground>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   imageStyle: {
@@ -63,6 +158,24 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
   },
+  containerImage: {
+    flex: 1,
+    alignItems: "center",
+  },
+  thumb: {
+    width: 20,
+    height: 20,
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.35,
+  },
   container: {
     flex: 8,
   },
@@ -71,7 +184,7 @@ const styles = StyleSheet.create({
   },
   headerTab: {
     flex: 6,
-    marginLeft: 35,
+    marginLeft: 5,
   },
   headerButtons: {
     flexDirection: "row",
@@ -82,12 +195,12 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginTop: 30,
-    marginLeft: 35,
+    marginLeft: 5,
   },
   RtButtons: {
     resizeMode: "contain",
-    width: 90,
-    height: 70,
+    width: 100,
+    height: 85,
     marginTop: 20,
     marginLeft: 5,
   },
@@ -97,11 +210,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   TabContainer: {
-    marginLeft: 35,
+    marginLeft: 15,
   },
   TabImageStyle: {
     resizeMode: "contain",
-    width: "90%",
+    width: "96%",
     height: 200,
   },
   insideBottom: {
