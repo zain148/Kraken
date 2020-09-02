@@ -16,6 +16,8 @@ import { SliderValuePicker } from "react-native-slider-color-picker";
 import tinycolor from "tinycolor2";
 const { width } = Dimensions.get("window");
 
+import { ColorWheel } from "../component/ColorWheel";
+
 //Color_Wheel
 const ColorPicker = () => {
   const data = [
@@ -97,8 +99,14 @@ const ColorPicker = () => {
         </ImageBackground>
 
         <View style={styles.center}>
-          <View style={{ height: 100, width: 100 }}>
-            <Text>Hello</Text>
+          <View style={{ flex: 3 }}>
+            <ColorWheel
+              initialColor="#ee0000"
+              //  onColorChange={(color) => console.log({ color })}
+              onColorChangeComplete={(color) => console.log({ color })}
+              style={{ width: Dimensions.get("window").width }}
+              thumbStyle={{ height: 30, width: 30, borderRadius: 30 }}
+            />
           </View>
 
           {/* Slider */}
