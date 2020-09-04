@@ -25,6 +25,8 @@ class ScrollColorPicker extends React.Component {
     super(props);
     this.state = {
       oldColor: "#FF7700",
+      Rt1: false,
+      Rt2: false,
     };
   }
 
@@ -52,11 +54,43 @@ class ScrollColorPicker extends React.Component {
               <TouchableOpacity onPress={() => alert("setting button")}>
                 <Image style={styles.headerSettingImage} source={Images.ScrollSetting} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => alert("RT1 BUTTON")}>
-                <Image source={Images.Rt1} style={styles.RtButtons} />
+              <TouchableOpacity
+                onPress={() => {
+                  alert("Rt1 Button");
+                  this.setState({ Rt1: true, Rt2: false });
+                }}
+              >
+                <Image
+                  source={Images.Rt1}
+                  style={[
+                    styles.RtButtons,
+                    {
+                      backgroundColor: this.state.Rt1 === true ? "white" : "transparent",
+                      marginTop: 40,
+                      height: 35,
+                      backfaceVisibility: "visible",
+                    },
+                  ]}
+                />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => alert("RT2 button")}>
-                <Image source={Images.Rt2} style={styles.RtButtons} />
+              <TouchableOpacity
+                onPress={() => {
+                  alert("Rt2 Button");
+                  this.setState({ Rt1: false, Rt2: true });
+                }}
+              >
+                <Image
+                  source={Images.Rt2}
+                  style={[
+                    styles.RtButtons,
+                    {
+                      backgroundColor: this.state.Rt2 === true ? "white" : "transparent",
+                      marginTop: 40,
+                      height: 35,
+                      backfaceVisibility: "visible",
+                    },
+                  ]}
+                />
               </TouchableOpacity>
             </View>
 

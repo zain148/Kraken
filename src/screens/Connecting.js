@@ -6,16 +6,18 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/Colors.js";
 import { Asset } from "expo-asset";
 
-class Connection extends React.Component {
-  //navigate to Layout screen
-  componentDidMount() {
+const Connection = (props) => {
+  //Navigate to Layout Screen
+  useEffect(() => {
     setTimeout(() => {
-      this.props.navigation.navigate("Layout");
+      props.navigation.navigate("Layout");
     }, 3000);
-  }
-  render() {
-    //load before return
-    const imageURI = Asset.fromModule(Images.BackgroundTwo).uri;
+  });
+
+  //Load Before Return
+  const imageURI = Asset.fromModule(Images.BackgroundTwo).uri;
+
+  if (imageURI) {
     return (
       <ImageBackground
         style={styles.backgroundImage}
@@ -38,8 +40,10 @@ class Connection extends React.Component {
         </View>
       </ImageBackground>
     );
+  } else {
+    return;
   }
-}
+};
 
 const styles = StyleSheet.create({
   imageStyle: {

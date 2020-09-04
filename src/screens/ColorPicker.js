@@ -78,11 +78,13 @@ const ColorPicker = () => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setSelectedColor(colors.ButtonColor);
                       alert(`Your ${value.id} color is ${value.color}`);
-                      setTimeout(() => {
+
+                      if (selectedColor === "transparent") {
+                        setSelectedColor(colors.ButtonColor);
+                      } else {
                         setSelectedColor("transparent");
-                      }, 2000);
+                      }
                     }}
                     key={index}
                     style={[
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
   },
   headerScrollViewInsideContainer: {
     width: 100,
-    marginTop: 10,
+    marginTop: 2,
     height: 60,
     justifyContent: "center",
     alignItems: "center",
